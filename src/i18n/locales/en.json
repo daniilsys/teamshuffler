@@ -18,6 +18,9 @@
       "description": "Select the role that will be able to run `/game`. Server admins can always run it.",
       "placeholder": "Select a role...",
       "set": "Game Manager role set to {role}.",
+      "created": "Role {role} created and set as Game Manager.",
+      "role_name": "Game Manager",
+      "btn_create": "Create a role",
       "btn_back": "Back"
     },
     "language": {

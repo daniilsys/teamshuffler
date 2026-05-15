@@ -18,6 +18,9 @@
       "description": "Sélectionnez le rôle qui pourra lancer `/game`. Les admins serveur peuvent toujours l'utiliser.",
       "placeholder": "Sélectionner un rôle...",
       "set": "Rôle Game Manager défini sur {role}.",
+      "created": "Rôle {role} créé et défini comme Game Manager.",
+      "role_name": "Game Manager",
+      "btn_create": "Créer un rôle",
       "btn_back": "Retour"
     },
     "language": {

@@ -18,6 +18,9 @@
       "description": "Wähle die Rolle aus, die `/game` ausführen darf. Server-Admins können es immer verwenden.",
       "placeholder": "Rolle auswählen...",
       "set": "Game-Manager-Rolle auf {role} gesetzt.",
+      "created": "Rolle {role} erstellt und als Game-Manager festgelegt.",
+      "role_name": "Game-Manager",
+      "btn_create": "Rolle erstellen",
       "btn_back": "Zurück"
     },
     "language": {

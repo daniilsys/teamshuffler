@@ -99,6 +99,8 @@ export async function handleSetupInteraction(interaction: MessageComponentIntera
       return handleCategory(interaction, guildId, locale);
     case 'setup_role':
       return handleRoleMenu(interaction, locale);
+    case 'setup_create_role':
+      return handleCreateRole(interaction, guildId, locale);
     case 'setup_role_select':
       return handleRoleSelect(interaction as StringSelectMenuInteraction, guildId, locale);
     case 'setup_lang':
@@ -182,7 +184,43 @@ async function handleRoleMenu(interaction: MessageComponentInteraction, locale: 
       .setPlaceholder(t(locale, 'setup.role.placeholder')),
   );
 
-  await interaction.update({ embeds: [embed], components: [roleRow, backRow(locale)] });
+  const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId('setup_create_role')
+      .setLabel(t(locale, 'setup.role.btn_create'))
+      .setStyle(ButtonStyle.Success)
+      .setEmoji('✨'),
+    new ButtonBuilder()
+      .setCustomId('setup_back')
+      .setLabel(t(locale, 'setup.role.btn_back'))
+      .setStyle(ButtonStyle.Secondary),
+  );
+
+  await interaction.update({ embeds: [embed], components: [roleRow, actionRow] });
+}
+
+async function handleCreateRole(interaction: MessageComponentInteraction, guildId: string, locale: string): Promise<void> {
+  await interaction.deferUpdate();
+
+  const guild = interaction.guild!;
+  const bot = guild.members.me;
+
+  if (!bot?.permissions.has(PermissionFlagsBits.ManageRoles)) {
+    await interaction.followUp({ content: t(locale, 'errors.bot_permissions'), flags: 64 });
+    return;
+  }
+
+  const roleName = t(locale, 'setup.role.role_name');
+  const role = await guild.roles.create({ name: roleName, reason: 'TeamShuffler setup' });
+
+  await upsertConfig(guildId, { gameManagerRoleId: role.id });
+
+  const embed = mainPanelEmbed(locale).addFields({
+    name: '✓',
+    value: t(locale, 'setup.role.created', { role: `<@&${role.id}>` }),
+  });
+
+  await interaction.editReply({ embeds: [embed], components: mainPanelRows(locale) });
 }
 
 async function handleRoleSelect(interaction: StringSelectMenuInteraction, guildId: string, locale: string): Promise<void> {
