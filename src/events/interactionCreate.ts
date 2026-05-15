@@ -2,6 +2,8 @@ import { ButtonInteraction, Client, Events, Interaction, StringSelectMenuInterac
 import { handleSetupCommand, handleSetupInteraction } from '../interactions/setup';
 import { handleGameCommand, handleGameInteraction } from '../interactions/game';
 import { handleHelpCommand, handleFaqSelect } from '../interactions/help';
+import { handleShuffleCommand } from '../interactions/shuffle';
+import { handleFirstUseLang } from '../interactions/firstUse';
 import { getConfig } from '../services/guildConfig';
 import { t } from '../i18n';
 
@@ -16,6 +18,8 @@ export function registerInteractionEvent(client: Client): void {
           await handleGameCommand(interaction);
         } else if (interaction.commandName === 'help') {
           await handleHelpCommand(interaction);
+        } else if (interaction.commandName === 'shuffle') {
+          await handleShuffleCommand(interaction);
         }
         return;
       }
@@ -27,6 +31,8 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupInteraction(btn);
         } else if (btn.customId.startsWith('game_')) {
           await handleGameInteraction(btn);
+        } else if (btn.customId.startsWith('firstuse_lang:')) {
+          await handleFirstUseLang(btn);
         }
         return;
       }

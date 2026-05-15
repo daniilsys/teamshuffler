@@ -14,9 +14,10 @@ export async function upsertConfig(guildId: string, data: Partial<Omit<GuildConf
 }
 
 export async function incrementGameCounter(guildId: string): Promise<number> {
-  const config = await db.guildConfig.update({
+  const config = await db.guildConfig.upsert({
     where: { guildId },
-    data: { gameCounter: { increment: 1 } },
+    create: { guildId, gameCounter: 1 },
+    update: { gameCounter: { increment: 1 } },
   });
   return config.gameCounter;
 }

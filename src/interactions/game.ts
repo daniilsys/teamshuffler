@@ -112,7 +112,7 @@ async function handleNotInCreationChannel(
 
 // ─── Odd members prompt ───────────────────────────────────────────────────────
 
-async function sendOddMembersPrompt(
+export async function sendOddMembersPrompt(
   interaction: ChatInputCommandInteraction | ButtonInteraction,
   locale: string,
   members: string[],
@@ -161,7 +161,7 @@ async function sendOddMembersPrompt(
 
 // ─── Team proposal ────────────────────────────────────────────────────────────
 
-async function sendTeamProposal(
+export async function sendTeamProposal(
   interaction: ChatInputCommandInteraction | ButtonInteraction,
   locale: string,
   allMembers: string[],

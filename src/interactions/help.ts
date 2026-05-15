@@ -1,5 +1,7 @@
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChatInputCommandInteraction,
   EmbedBuilder,
   StringSelectMenuBuilder,
@@ -12,6 +14,7 @@ import { getConfig } from '../services/guildConfig';
 const FAQ_KEYS = [
   'who_game',
   'who_setup',
+  'shuffle_vs_game',
   'rename',
   'odd',
   'multi',
@@ -19,6 +22,8 @@ const FAQ_KEYS = [
   'lang',
   'more_channels',
 ] as const;
+
+const INVITE_PERMISSIONS = '286346256';
 
 // ─── /help command ────────────────────────────────────────────────────────────
 
@@ -48,16 +53,30 @@ export async function handleHelpCommand(interaction: ChatInputCommandInteraction
         value: t(locale, 'help.game.description'),
       },
       {
+        name: `${mention('shuffle')} — ${t(locale, 'help.shuffle.title')}`,
+        value: t(locale, 'help.shuffle.description'),
+      },
+      {
         name: `${mention('help')} — ${t(locale, 'help.help.title')}`,
         value: t(locale, 'help.help.description'),
       },
     );
 
+  const clientId = interaction.client.user.id;
+  const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=${INVITE_PERMISSIONS}&scope=bot+applications.commands`;
+
+  const inviteRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setLabel(t(locale, 'help.btn_invite'))
+      .setURL(inviteUrl)
+      .setStyle(ButtonStyle.Link),
+  );
+
   const faqRow = buildFaqSelect(locale);
 
   await interaction.reply({
     embeds: [commandsEmbed],
-    components: [faqRow],
+    components: [faqRow, inviteRow],
     flags: 64,
   });
 }

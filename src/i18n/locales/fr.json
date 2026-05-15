@@ -79,9 +79,18 @@
     },
     "ended": "La partie #{id} est terminée — les salons ont été supprimés."
   },
+  "firstuse": {
+    "done_title": "C'est parti !",
+    "done_description": "Langue configurée. Relancez votre commande pour commencer."
+  },
   "help": {
     "title": "TeamShuffler — Aide",
     "description": "Créez des équipes équilibrées depuis votre salon vocal en quelques secondes.",
+    "btn_invite": "Inviter TeamShuffler",
+    "shuffle": {
+      "title": "Shuffle rapide",
+      "description": "Mélange tous les membres de votre salon vocal en deux équipes — **sans configuration préalable**. Fonctionne dans n'importe quel salon vocal."
+    },
     "setup": {
       "title": "Configuration du serveur",
       "description": "**Admins uniquement.** Ouvre un panel interactif pour créer la catégorie de création d'équipe, définir un rôle Game Manager et choisir la langue du bot."
@@ -98,6 +107,8 @@
     "faq": {
       "title": "FAQ",
       "placeholder": "Choisissez une question...",
+      "q_shuffle_vs_game": "Quelle est la différence entre /shuffle et /game ?",
+      "a_shuffle_vs_game": "**`/shuffle`** fonctionne dans n'importe quel salon vocal sans configuration préalable — accessible à tous.\n**`/game`** nécessite `/setup` au préalable (salons de création + rôle Game Manager optionnel) et ajoute un flux guidé avec déplacement automatique pour un jeu plus organisé.",
       "q_who_game": "Qui peut utiliser /game ?",
       "a_who_game": "Les membres avec le rôle **Game Manager** et les admins serveur. Définissez le rôle dans `/setup`.",
       "q_who_setup": "Qui peut utiliser /setup ?",

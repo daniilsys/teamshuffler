@@ -79,9 +79,18 @@
     },
     "ended": "Game #{id} is over — channels have been cleaned up."
   },
+  "firstuse": {
+    "done_title": "All set!",
+    "done_description": "Language configured. Re-run your command to get started."
+  },
   "help": {
     "title": "TeamShuffler — Help",
     "description": "Instantly shuffle voice channel members into balanced teams.",
+    "btn_invite": "Invite TeamShuffler",
+    "shuffle": {
+      "title": "Quick shuffle",
+      "description": "Shuffles everyone in your voice channel into two teams — **no setup required**. Works in any voice channel."
+    },
     "setup": {
       "title": "Server setup",
       "description": "**Admin only.** Opens an interactive panel to create the Team Creation category, set a Game Manager role, and choose the bot language."
@@ -98,6 +107,8 @@
     "faq": {
       "title": "FAQ",
       "placeholder": "Select a question...",
+      "q_shuffle_vs_game": "What's the difference between /shuffle and /game?",
+      "a_shuffle_vs_game": "**`/shuffle`** works in any voice channel with no prior setup — open to everyone.\n**`/game`** requires `/setup` first (creation channels + optional Game Manager role) and adds a guided move-to-channel flow for more organized play.",
       "q_who_game": "Who can use /game?",
       "a_who_game": "Members with the **Game Manager** role and server admins. Set the role in `/setup`.",
       "q_who_setup": "Who can use /setup?",

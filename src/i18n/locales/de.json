@@ -79,9 +79,18 @@
     },
     "ended": "Spiel #{id} ist vorbei — Kanäle wurden bereinigt."
   },
+  "firstuse": {
+    "done_title": "Alles bereit!",
+    "done_description": "Sprache konfiguriert. Führe deinen Befehl erneut aus, um loszulegen."
+  },
   "help": {
     "title": "TeamShuffler — Hilfe",
     "description": "Teile Sprachkanal-Mitglieder sofort in ausgewogene Teams auf.",
+    "btn_invite": "TeamShuffler einladen",
+    "shuffle": {
+      "title": "Schneller Shuffle",
+      "description": "Mischt alle Mitglieder deines Sprachkanals in zwei Teams — **ohne Setup erforderlich**. Funktioniert in jedem Sprachkanal."
+    },
     "setup": {
       "title": "Server einrichten",
       "description": "**Nur Admins.** Öffnet ein interaktives Panel zum Erstellen der Team-Kategorie, Festlegen einer Game-Manager-Rolle und Auswählen der Bot-Sprache."
@@ -98,6 +107,8 @@
     "faq": {
       "title": "FAQ",
       "placeholder": "Frage auswählen...",
+      "q_shuffle_vs_game": "Was ist der Unterschied zwischen /shuffle und /game?",
+      "a_shuffle_vs_game": "**`/shuffle`** funktioniert in jedem Sprachkanal ohne vorherige Einrichtung — für alle zugänglich.\n**`/game`** erfordert zuerst `/setup` (Erstellungskanäle + optionale Game-Manager-Rolle) und bietet einen geführten Ablauf mit automatischem Verschieben für ein organisierteres Spiel.",
       "q_who_game": "Wer kann /game verwenden?",
       "a_who_game": "Mitglieder mit der **Game-Manager**-Rolle und Server-Admins. Rolle in `/setup` festlegen.",
       "q_who_setup": "Wer kann /setup verwenden?",
