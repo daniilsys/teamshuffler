@@ -1,7 +1,7 @@
 import { ButtonInteraction, Client, Events, Interaction, StringSelectMenuInteraction } from 'discord.js';
 import { handleSetupCommand, handleSetupInteraction } from '../interactions/setup';
 import { handleGameCommand, handleGameInteraction } from '../interactions/game';
-import { handleHelpCommand, handleFaqSelect } from '../interactions/help';
+import { handleHelpCommand, handleFaqSelect, handleHelpBack } from '../interactions/help';
 import { handleShuffleCommand } from '../interactions/shuffle';
 import { checkFirstUse, handleFirstUseLang } from '../interactions/firstUse';
 import { getConfig } from '../services/guildConfig';
@@ -33,6 +33,8 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupInteraction(btn);
         } else if (btn.customId.startsWith('game_')) {
           await handleGameInteraction(btn);
+        } else if (btn.customId === 'help_back') {
+          await handleHelpBack(btn);
         }
         return;
       }

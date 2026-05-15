@@ -1,6 +1,7 @@
 import {
   ActionRowBuilder,
   ButtonBuilder,
+  ButtonInteraction,
   ButtonStyle,
   ChatInputCommandInteraction,
   Client,
@@ -94,10 +95,26 @@ export async function handleFaqSelect(interaction: StringSelectMenuInteraction):
     .setTitle(question)
     .setDescription(answer);
 
+  const backRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId('help_back')
+      .setLabel('← Back')
+      .setStyle(ButtonStyle.Secondary),
+  );
+
   await interaction.update({
-    components: [buildFaqSelect(locale)],
+    components: [buildFaqSelect(locale), backRow],
     embeds: [answerEmbed],
   });
+}
+
+export async function handleHelpBack(interaction: ButtonInteraction): Promise<void> {
+  const locale = interaction.guildId
+    ? ((await getConfig(interaction.guildId))?.locale ?? 'en')
+    : 'en';
+
+  const payload = await buildHelpPayload(locale, interaction.client);
+  await interaction.update(payload);
 }
 
 // ─── Shared builder ───────────────────────────────────────────────────────────
