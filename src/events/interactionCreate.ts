@@ -3,7 +3,7 @@ import { handleSetupCommand, handleSetupInteraction } from '../interactions/setu
 import { handleGameCommand, handleGameInteraction } from '../interactions/game';
 import { handleHelpCommand, handleFaqSelect } from '../interactions/help';
 import { handleShuffleCommand } from '../interactions/shuffle';
-import { handleFirstUseLang } from '../interactions/firstUse';
+import { checkFirstUse, handleFirstUseLang } from '../interactions/firstUse';
 import { getConfig } from '../services/guildConfig';
 import { t } from '../i18n';
 
@@ -17,6 +17,7 @@ export function registerInteractionEvent(client: Client): void {
         } else if (interaction.commandName === 'game') {
           await handleGameCommand(interaction);
         } else if (interaction.commandName === 'help') {
+          if (await checkFirstUse(interaction)) return;
           await handleHelpCommand(interaction);
         } else if (interaction.commandName === 'shuffle') {
           await handleShuffleCommand(interaction);
@@ -31,8 +32,6 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupInteraction(btn);
         } else if (btn.customId.startsWith('game_')) {
           await handleGameInteraction(btn);
-        } else if (btn.customId.startsWith('firstuse_lang:')) {
-          await handleFirstUseLang(btn);
         }
         return;
       }
@@ -44,6 +43,8 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupInteraction(select as unknown as ButtonInteraction);
         } else if (select.customId === 'help_faq') {
           await handleFaqSelect(select);
+        } else if (select.customId === 'firstuse_lang') {
+          await handleFirstUseLang(select);
         }
         return;
       }

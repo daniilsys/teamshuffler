@@ -1,12 +1,11 @@
 import {
   ActionRowBuilder,
-  ButtonBuilder,
-  ButtonInteraction,
-  ButtonStyle,
   ChatInputCommandInteraction,
   EmbedBuilder,
   GuildMember,
   PermissionFlagsBits,
+  StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
 } from 'discord.js';
 import { Colors } from '../utils/colors';
 import { t } from '../i18n';
@@ -34,19 +33,24 @@ export async function checkFirstUse(interaction: ChatInputCommandInteraction): P
     )
     .setFooter({ text: 'This message is only visible to you.' });
 
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId('firstuse_lang:en').setLabel('English').setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('firstuse_lang:fr').setLabel('Français').setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('firstuse_lang:de').setLabel('Deutsch').setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId('firstuse_lang:es').setLabel('Español').setStyle(ButtonStyle.Secondary),
+  const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId('firstuse_lang')
+      .setPlaceholder('Select a language...')
+      .addOptions(
+        { label: 'English', value: 'en' },
+        { label: 'Français', value: 'fr' },
+        { label: 'Deutsch', value: 'de' },
+        { label: 'Español', value: 'es' },
+      ),
   );
 
   await interaction.reply({ embeds: [embed], components: [row], flags: 64 });
   return true;
 }
 
-export async function handleFirstUseLang(interaction: ButtonInteraction): Promise<void> {
-  const locale = interaction.customId.split(':')[1];
+export async function handleFirstUseLang(interaction: StringSelectMenuInteraction): Promise<void> {
+  const locale = interaction.values[0];
   const { guildId } = interaction;
   if (!guildId || !locale) return;
 
