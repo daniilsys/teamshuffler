@@ -6,6 +6,7 @@
       "btn_category": "Crear categoría",
       "btn_role": "Definir rol de Game Manager",
       "btn_language": "Cambiar idioma",
+      "btn_logs": "Canal de logs",
       "btn_status": "Estado del servidor"
     },
     "category": {
@@ -34,11 +35,19 @@
       "es": "Español",
       "btn_back": "Volver"
     },
+    "logs": {
+      "title": "Canal de logs",
+      "description": "Elige un canal de texto donde se publicarán las notificaciones de fin de partida.\nSi no se define, no se enviará ningún mensaje.",
+      "placeholder": "Seleccionar un canal...",
+      "set": "Canal de logs establecido en {channel}.",
+      "btn_back": "Volver"
+    },
     "status": {
       "title": "Configuración del servidor",
       "category": "Categoría de creación de equipos",
       "channels": "Canales de creación",
       "role": "Rol de Game Manager",
+      "log_channel": "Canal de logs",
       "language": "Idioma",
       "not_set": "No configurado",
       "configured": "Configurado ✓",

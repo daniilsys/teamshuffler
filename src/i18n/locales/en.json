@@ -6,6 +6,7 @@
       "btn_category": "Create Category",
       "btn_role": "Set Game Manager Role",
       "btn_language": "Change Language",
+      "btn_logs": "Log Channel",
       "btn_status": "Server Status"
     },
     "category": {
@@ -34,11 +35,19 @@
       "es": "Spanish",
       "btn_back": "Back"
     },
+    "logs": {
+      "title": "Set Log Channel",
+      "description": "Choose a text channel where game-end notifications will be posted.\nIf not set, no message will be sent.",
+      "placeholder": "Select a channel...",
+      "set": "Log channel set to {channel}.",
+      "btn_back": "Back"
+    },
     "status": {
       "title": "Server Configuration",
       "category": "Team Creation Category",
       "channels": "Creation Channels",
       "role": "Game Manager Role",
+      "log_channel": "Log Channel",
       "language": "Language",
       "not_set": "Not configured",
       "configured": "Configured ✓",

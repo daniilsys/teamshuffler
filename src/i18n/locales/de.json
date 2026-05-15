@@ -6,6 +6,7 @@
       "btn_category": "Kategorie erstellen",
       "btn_role": "Game-Manager-Rolle festlegen",
       "btn_language": "Sprache ändern",
+      "btn_logs": "Log-Kanal",
       "btn_status": "Serverstatus"
     },
     "category": {
@@ -34,11 +35,19 @@
       "es": "Spanisch",
       "btn_back": "Zurück"
     },
+    "logs": {
+      "title": "Log-Kanal festlegen",
+      "description": "Wähle einen Textkanal, in dem Benachrichtigungen zum Spielende gepostet werden.\nWenn nicht festgelegt, wird keine Nachricht gesendet.",
+      "placeholder": "Kanal auswählen...",
+      "set": "Log-Kanal auf {channel} gesetzt.",
+      "btn_back": "Zurück"
+    },
     "status": {
       "title": "Serverkonfiguration",
       "category": "Team-Erstellungs-Kategorie",
       "channels": "Erstellungskanäle",
       "role": "Game-Manager-Rolle",
+      "log_channel": "Log-Kanal",
       "language": "Sprache",
       "not_set": "Nicht konfiguriert",
       "configured": "Konfiguriert ✓",

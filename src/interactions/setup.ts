@@ -3,6 +3,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  ChannelSelectMenuBuilder,
   ChannelType,
   EmbedBuilder,
   MessageComponentInteraction,
@@ -43,6 +44,11 @@ function mainPanelRows(locale: string): ActionRowBuilder<ButtonBuilder>[] {
       .setLabel(t(locale, 'setup.panel.btn_language'))
       .setStyle(ButtonStyle.Secondary)
       .setEmoji('🌐'),
+    new ButtonBuilder()
+      .setCustomId('setup_logs')
+      .setLabel(t(locale, 'setup.panel.btn_logs'))
+      .setStyle(ButtonStyle.Secondary)
+      .setEmoji('📋'),
     new ButtonBuilder()
       .setCustomId('setup_status')
       .setLabel(t(locale, 'setup.panel.btn_status'))
@@ -107,6 +113,10 @@ export async function handleSetupInteraction(interaction: MessageComponentIntera
       return handleLangMenu(interaction, locale);
     case 'setup_lang_select':
       return handleLangSelect(interaction as StringSelectMenuInteraction, guildId, locale);
+    case 'setup_logs':
+      return handleLogsMenu(interaction, locale);
+    case 'setup_logs_select':
+      return handleLogsSelect(interaction, guildId, locale);
     case 'setup_status':
       return handleStatus(interaction, guildId, locale);
     case 'setup_back':
@@ -275,6 +285,36 @@ async function handleLangSelect(interaction: StringSelectMenuInteraction, guildI
   await interaction.update({ embeds: [embed], components: mainPanelRows(newLocale) });
 }
 
+async function handleLogsMenu(interaction: MessageComponentInteraction, locale: string): Promise<void> {
+  const embed = new EmbedBuilder()
+    .setColor(Colors.blue)
+    .setTitle(t(locale, 'setup.logs.title'))
+    .setDescription(t(locale, 'setup.logs.description'));
+
+  const channelRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(
+    new ChannelSelectMenuBuilder()
+      .setCustomId('setup_logs_select')
+      .setPlaceholder(t(locale, 'setup.logs.placeholder'))
+      .setChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement),
+  );
+
+  await interaction.update({ embeds: [embed], components: [channelRow, backRow(locale)] });
+}
+
+async function handleLogsSelect(interaction: MessageComponentInteraction, guildId: string, locale: string): Promise<void> {
+  const channelId = (interaction as unknown as { values: string[] }).values[0];
+  if (!channelId) return;
+
+  await upsertConfig(guildId, { logChannelId: channelId });
+
+  const embed = mainPanelEmbed(locale).addFields({
+    name: '✓',
+    value: t(locale, 'setup.logs.set', { channel: `<#${channelId}>` }),
+  });
+
+  await interaction.update({ embeds: [embed], components: mainPanelRows(locale) });
+}
+
 async function handleStatus(interaction: MessageComponentInteraction, guildId: string, locale: string): Promise<void> {
   const config = await getConfig(guildId);
 
@@ -303,8 +343,13 @@ async function handleStatus(interaction: MessageComponentInteraction, guildId: s
         inline: true,
       },
       {
+        name: t(locale, 'setup.status.log_channel'),
+        value: config?.logChannelId ? `<#${config.logChannelId}>` : notSet,
+        inline: true,
+      },
+      {
         name: t(locale, 'setup.status.language'),
-        value: locale === 'fr' ? 'Français' : 'English',
+        value: { en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español' }[locale] ?? locale,
         inline: true,
       },
     );

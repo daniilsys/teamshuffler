@@ -6,6 +6,7 @@
       "btn_category": "Créer la catégorie",
       "btn_role": "Définir le rôle Game Manager",
       "btn_language": "Changer la langue",
+      "btn_logs": "Salon de logs",
       "btn_status": "Statut du serveur"
     },
     "category": {
@@ -34,11 +35,19 @@
       "es": "Espagnol",
       "btn_back": "Retour"
     },
+    "logs": {
+      "title": "Salon de logs",
+      "description": "Choisis un salon textuel où les notifications de fin de partie seront envoyées.\nSi non défini, aucun message ne sera envoyé.",
+      "placeholder": "Sélectionner un salon...",
+      "set": "Salon de logs défini sur {channel}.",
+      "btn_back": "Retour"
+    },
     "status": {
       "title": "Configuration du serveur",
       "category": "Catégorie de création d'équipe",
       "channels": "Salons de création",
       "role": "Rôle Game Manager",
+      "log_channel": "Salon de logs",
       "language": "Langue",
       "not_set": "Non configuré",
       "configured": "Configuré ✓",

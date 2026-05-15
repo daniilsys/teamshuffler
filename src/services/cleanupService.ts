@@ -1,4 +1,4 @@
-import { Client, ChannelType } from 'discord.js';
+import { Client, ChannelType, TextChannel } from 'discord.js';
 import db from '../db';
 import { t } from '../i18n';
 import { getConfig } from './guildConfig';
@@ -31,9 +31,9 @@ export async function cleanupGame(client: Client, gameId: string): Promise<void>
   const locale = config?.locale ?? 'en';
   console.log(`[cleanup] Game #${game.gameNumber} cleaned up in guild ${game.guildId}`);
 
-  const systemChannel = guild.systemChannel;
-  if (systemChannel) {
-    await systemChannel.send(t(locale, 'game.ended', { id: game.gameNumber })).catch(() => null);
+  if (config?.logChannelId) {
+    const logChannel = guild.channels.cache.get(config.logChannelId) as TextChannel | undefined;
+    await logChannel?.send(t(locale, 'game.ended', { id: game.gameNumber })).catch(() => null);
   }
 }
 
