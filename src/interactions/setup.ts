@@ -23,8 +23,8 @@ function mainPanelEmbed(locale: string): EmbedBuilder {
     .setDescription(t(locale, 'setup.panel.description'));
 }
 
-function mainPanelRow(locale: string): ActionRowBuilder<ButtonBuilder> {
-  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+function mainPanelRows(locale: string): ActionRowBuilder<ButtonBuilder>[] {
+  const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId('setup_category')
       .setLabel(t(locale, 'setup.panel.btn_category'))
@@ -35,6 +35,9 @@ function mainPanelRow(locale: string): ActionRowBuilder<ButtonBuilder> {
       .setLabel(t(locale, 'setup.panel.btn_role'))
       .setStyle(ButtonStyle.Primary)
       .setEmoji('👑'),
+  );
+
+  const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId('setup_lang')
       .setLabel(t(locale, 'setup.panel.btn_language'))
@@ -46,6 +49,8 @@ function mainPanelRow(locale: string): ActionRowBuilder<ButtonBuilder> {
       .setStyle(ButtonStyle.Secondary)
       .setEmoji('📊'),
   );
+
+  return [row1, row2];
 }
 
 function backRow(locale: string): ActionRowBuilder<ButtonBuilder> {
@@ -60,7 +65,7 @@ function backRow(locale: string): ActionRowBuilder<ButtonBuilder> {
 // ─── Shared payload builder ───────────────────────────────────────────────────
 
 export function setupPanelPayload(locale: string): { embeds: EmbedBuilder[]; components: ActionRowBuilder<ButtonBuilder>[] } {
-  return { embeds: [mainPanelEmbed(locale)], components: [mainPanelRow(locale)] };
+  return { embeds: [mainPanelEmbed(locale)], components: mainPanelRows(locale) };
 }
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
@@ -75,7 +80,7 @@ export async function handleSetupCommand(interaction: MessageComponentInteractio
 
   await (interaction as { reply: Function }).reply({
     embeds: [mainPanelEmbed(locale)],
-    components: [mainPanelRow(locale)],
+    components: mainPanelRows(locale),
     flags: 64, // Ephemeral
   });
 }
@@ -162,7 +167,7 @@ async function handleCategory(interaction: MessageComponentInteraction, guildId:
 
   const embed = mainPanelEmbed(locale).addFields({ name: '✓', value: confirmText });
 
-  await interaction.editReply({ embeds: [embed], components: [mainPanelRow(locale)] });
+  await interaction.editReply({ embeds: [embed], components: mainPanelRows(locale) });
 }
 
 async function handleRoleMenu(interaction: MessageComponentInteraction, locale: string): Promise<void> {
@@ -192,7 +197,7 @@ async function handleRoleSelect(interaction: StringSelectMenuInteraction, guildI
     value: t(locale, 'setup.role.set', { role: `<@&${roleId}>` }),
   });
 
-  await interaction.update({ embeds: [embed], components: [mainPanelRow(locale)] });
+  await interaction.update({ embeds: [embed], components: mainPanelRows(locale) });
 }
 
 async function handleLangMenu(interaction: MessageComponentInteraction, locale: string): Promise<void> {
@@ -229,7 +234,7 @@ async function handleLangSelect(interaction: StringSelectMenuInteraction, guildI
     value: t(newLocale, 'setup.language.updated', { lang: langName }),
   });
 
-  await interaction.update({ embeds: [embed], components: [mainPanelRow(newLocale)] });
+  await interaction.update({ embeds: [embed], components: mainPanelRows(newLocale) });
 }
 
 async function handleStatus(interaction: MessageComponentInteraction, guildId: string, locale: string): Promise<void> {
@@ -270,5 +275,5 @@ async function handleStatus(interaction: MessageComponentInteraction, guildId: s
 }
 
 async function handleBack(interaction: MessageComponentInteraction, locale: string): Promise<void> {
-  await interaction.update({ embeds: [mainPanelEmbed(locale)], components: [mainPanelRow(locale)] });
+  await interaction.update({ embeds: [mainPanelEmbed(locale)], components: mainPanelRows(locale) });
 }
