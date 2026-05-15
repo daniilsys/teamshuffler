@@ -150,11 +150,11 @@ async function handleCategory(interaction: MessageComponentInteraction, guildId:
     creationChannelIds: channelIds,
   });
 
-  const embed = mainPanelEmbed(locale).setFooter({
-    text: existingCategoryId
-      ? t(locale, 'setup.category.reconfigured')
-      : t(locale, 'setup.category.created', { name: categoryName }),
-  });
+  const confirmText = existingCategoryId
+    ? t(locale, 'setup.category.reconfigured')
+    : t(locale, 'setup.category.created', { name: categoryName });
+
+  const embed = mainPanelEmbed(locale).addFields({ name: '✓', value: confirmText });
 
   await interaction.editReply({ embeds: [embed], components: [mainPanelRow(locale)] });
 }
@@ -181,11 +181,11 @@ async function handleRoleSelect(interaction: StringSelectMenuInteraction, guildI
 
   await upsertConfig(guildId, { gameManagerRoleId: roleId });
 
-  const embed = mainPanelEmbed(locale).setFooter({
-    text: t(locale, 'setup.role.set', { role: `<@&${roleId}>` }),
+  const embed = mainPanelEmbed(locale).addFields({
+    name: '✓',
+    value: t(locale, 'setup.role.set', { role: `<@&${roleId}>` }),
   });
 
-  // Using editReply because update would lose the role mention render
   await interaction.update({ embeds: [embed], components: [mainPanelRow(locale)] });
 }
 
@@ -218,8 +218,9 @@ async function handleLangSelect(interaction: StringSelectMenuInteraction, guildI
 
   const langNames: Record<string, string> = { en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español' };
   const langName = langNames[newLocale] ?? newLocale;
-  const embed = mainPanelEmbed(newLocale).setFooter({
-    text: t(newLocale, 'setup.language.updated', { lang: langName }),
+  const embed = mainPanelEmbed(newLocale).addFields({
+    name: '✓',
+    value: t(newLocale, 'setup.language.updated', { lang: langName }),
   });
 
   await interaction.update({ embeds: [embed], components: [mainPanelRow(newLocale)] });
