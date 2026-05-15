@@ -44,7 +44,6 @@ export async function handleGameCommand(interaction: ChatInputCommandInteraction
     return;
   }
 
-  // Check if user is in a creation channel
   if (!config.creationChannelIds.includes(voiceChannel.id)) {
     await handleNotInCreationChannel(interaction, locale, config.creationChannelIds, voiceChannel.id);
     return;
@@ -58,11 +57,21 @@ export async function handleGameCommand(interaction: ChatInputCommandInteraction
   }
 
   if (members.length % 2 !== 0) {
-    await sendOddMembersPrompt(interaction, locale, members, voiceChannel.id);
+    await sendOddMembersPrompt(interaction, locale, members, voiceChannel.id, interaction.user.id);
     return;
   }
 
-  await sendTeamProposal(interaction, locale, members, members.length, voiceChannel.id, guildId);
+  await sendTeamProposal(interaction, locale, members, members.length, voiceChannel.id, guildId, interaction.user.id);
+}
+
+// ─── Invoker guard ────────────────────────────────────────────────────────────
+
+async function assertInvoker(interaction: ButtonInteraction, invokerUserId: string, locale: string): Promise<boolean> {
+  if (interaction.user.id !== invokerUserId) {
+    await interaction.reply({ content: t(locale, 'game.error.not_invoker'), flags: 64 });
+    return false;
+  }
+  return true;
 }
 
 // ─── Not in creation channel ──────────────────────────────────────────────────
@@ -91,7 +100,7 @@ async function handleNotInCreationChannel(
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`game_move:${currentChannelId}:${availableChannel}`)
+      .setCustomId(`game_move:${interaction.user.id}:${currentChannelId}:${availableChannel}`)
       .setLabel(t(locale, 'game.error.move_suggestion'))
       .setStyle(ButtonStyle.Primary)
       .setEmoji('🔀'),
@@ -103,10 +112,11 @@ async function handleNotInCreationChannel(
 // ─── Odd members prompt ───────────────────────────────────────────────────────
 
 async function sendOddMembersPrompt(
-  interaction: ChatInputCommandInteraction,
+  interaction: ChatInputCommandInteraction | ButtonInteraction,
   locale: string,
   members: string[],
   channelId: string,
+  invokerUserId: string,
 ): Promise<void> {
   const count = members.length;
   const smaller = count - 1;
@@ -122,16 +132,15 @@ async function sendOddMembersPrompt(
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`game_size:${channelId}:${smaller}`)
+      .setCustomId(`game_size:${invokerUserId}:${channelId}:${smaller}`)
       .setLabel(t(locale, 'game.odd_members.btn_smaller', { a: a1, b: b1 }))
       .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
-      .setCustomId(`game_size:${channelId}:${count}`)
+      .setCustomId(`game_size:${invokerUserId}:${channelId}:${count}`)
       .setLabel(t(locale, 'game.odd_members.btn_all', { a: a2, b: b2 }))
       .setStyle(ButtonStyle.Secondary),
   );
 
-  // Store member pool so we can use it when size is picked
   setGameState(interaction.guildId!, channelId, {
     teamA: [],
     teamB: [],
@@ -142,7 +151,11 @@ async function sendOddMembersPrompt(
     guildId: interaction.guildId!,
   });
 
-  await interaction.reply({ embeds: [embed], components: [row] });
+  if (interaction instanceof ButtonInteraction) {
+    await interaction.update({ embeds: [embed], components: [row] });
+  } else {
+    await interaction.reply({ embeds: [embed], components: [row] });
+  }
 }
 
 // ─── Team proposal ────────────────────────────────────────────────────────────
@@ -154,12 +167,13 @@ async function sendTeamProposal(
   totalPlaying: number,
   channelId: string,
   guildId: string,
+  invokerUserId: string,
 ): Promise<void> {
   const teams = createTeams(allMembers, totalPlaying);
   setGameState(guildId, channelId, { ...teams, allMembers, totalPlaying, channelId, guildId });
 
   const embed = buildProposalEmbed(locale, teams.teamA, teams.teamB, teams.spectators);
-  const row = proposalRow(locale, channelId);
+  const row = proposalRow(locale, channelId, invokerUserId);
 
   if (interaction instanceof ButtonInteraction) {
     await interaction.update({ embeds: [embed], components: [row] });
@@ -188,15 +202,15 @@ function buildProposalEmbed(locale: string, teamA: string[], teamB: string[], sp
   return embed;
 }
 
-function proposalRow(locale: string, channelId: string): ActionRowBuilder<ButtonBuilder> {
+function proposalRow(locale: string, channelId: string, invokerUserId: string): ActionRowBuilder<ButtonBuilder> {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`game_reroll:${channelId}`)
+      .setCustomId(`game_reroll:${invokerUserId}:${channelId}`)
       .setLabel(t(locale, 'game.proposal.btn_reroll'))
       .setStyle(ButtonStyle.Secondary)
       .setEmoji('🔀'),
     new ButtonBuilder()
-      .setCustomId(`game_play:${channelId}`)
+      .setCustomId(`game_play:${invokerUserId}:${channelId}`)
       .setLabel(t(locale, 'game.proposal.btn_play'))
       .setStyle(ButtonStyle.Success)
       .setEmoji('🎮'),
@@ -213,23 +227,27 @@ export async function handleGameInteraction(interaction: ButtonInteraction): Pro
   const locale = config?.locale ?? 'en';
 
   if (customId.startsWith('game_move:')) {
-    const [, srcChannelId, destChannelId] = customId.split(':');
-    return handleMove(interaction, locale, srcChannelId, destChannelId);
+    const [, invokerUserId, srcChannelId, destChannelId] = customId.split(':');
+    if (!await assertInvoker(interaction, invokerUserId, locale)) return;
+    return handleMove(interaction, locale, guildId, srcChannelId, destChannelId, invokerUserId, config);
   }
 
   if (customId.startsWith('game_size:')) {
-    const [, channelId, sizeStr] = customId.split(':');
-    return handleSizePick(interaction, locale, guildId, channelId, parseInt(sizeStr, 10));
+    const [, invokerUserId, channelId, sizeStr] = customId.split(':');
+    if (!await assertInvoker(interaction, invokerUserId, locale)) return;
+    return handleSizePick(interaction, locale, guildId, channelId, parseInt(sizeStr, 10), invokerUserId);
   }
 
   if (customId.startsWith('game_reroll:')) {
-    const channelId = customId.slice('game_reroll:'.length);
-    return handleReroll(interaction, locale, guildId, channelId);
+    const [, invokerUserId, channelId] = customId.split(':');
+    if (!await assertInvoker(interaction, invokerUserId, locale)) return;
+    return handleReroll(interaction, locale, guildId, channelId, invokerUserId);
   }
 
   if (customId.startsWith('game_play:')) {
-    const channelId = customId.slice('game_play:'.length);
-    return handlePlay(interaction, locale, guildId, channelId, config);
+    const [, invokerUserId, channelId] = customId.split(':');
+    if (!await assertInvoker(interaction, invokerUserId, locale)) return;
+    return handlePlay(interaction, locale, guildId, channelId, invokerUserId, config);
   }
 }
 
@@ -238,8 +256,12 @@ export async function handleGameInteraction(interaction: ButtonInteraction): Pro
 async function handleMove(
   interaction: ButtonInteraction,
   locale: string,
+  guildId: string,
   srcChannelId: string,
   destChannelId: string,
+  invokerUserId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any,
 ): Promise<void> {
   await interaction.deferUpdate();
 
@@ -259,17 +281,29 @@ async function handleMove(
     return;
   }
 
-  const members = src.members.filter(m => !m.user.bot);
-  let moved = 0;
-  for (const m of members.values()) {
-    await m.voice.setChannel(dest).then(() => moved++).catch(() => null);
+  const membersToMove = src.members.filter(m => !m.user.bot);
+  const movedIds: string[] = [];
+
+  for (const m of membersToMove.values()) {
+    const ok = await m.voice.setChannel(dest).then(() => true).catch(() => false);
+    if (ok) movedIds.push(m.id);
   }
 
-  const embed = new EmbedBuilder()
-    .setColor('#57F287')
-    .setDescription(t(locale, 'game.moved', { count: moved, channel: `<#${destChannelId}>` }));
+  // After move, go straight to team proposal
+  if (movedIds.length < 2) {
+    const embed = new EmbedBuilder()
+      .setColor('#FEE75C')
+      .setDescription(t(locale, 'game.error.not_enough_members'));
+    await interaction.editReply({ embeds: [embed], components: [] });
+    return;
+  }
 
-  await interaction.editReply({ embeds: [embed], components: [] });
+  if (movedIds.length % 2 !== 0) {
+    await sendOddMembersPrompt(interaction, locale, movedIds, destChannelId, invokerUserId);
+    return;
+  }
+
+  await sendTeamProposal(interaction, locale, movedIds, movedIds.length, destChannelId, guildId, invokerUserId);
 }
 
 // ─── Size pick (odd case) ─────────────────────────────────────────────────────
@@ -280,6 +314,7 @@ async function handleSizePick(
   guildId: string,
   channelId: string,
   totalPlaying: number,
+  invokerUserId: string,
 ): Promise<void> {
   const state = getGameState(guildId, channelId);
 
@@ -288,12 +323,11 @@ async function handleSizePick(
     return;
   }
 
-  // Re-read live members in case the channel changed
   const guild = interaction.guild!;
   const ch = guild.channels.cache.get(channelId) as VoiceChannel | null;
   const liveMembers = ch ? ch.members.filter(m => !m.user.bot).map(m => m.id) : state.allMembers;
 
-  await sendTeamProposal(interaction, locale, liveMembers, totalPlaying, channelId, guildId);
+  await sendTeamProposal(interaction, locale, liveMembers, totalPlaying, channelId, guildId, invokerUserId);
 }
 
 // ─── Reroll ───────────────────────────────────────────────────────────────────
@@ -303,6 +337,7 @@ async function handleReroll(
   locale: string,
   guildId: string,
   channelId: string,
+  invokerUserId: string,
 ): Promise<void> {
   const state = getGameState(guildId, channelId);
 
@@ -311,12 +346,11 @@ async function handleReroll(
     return;
   }
 
-  // Re-read live members
   const guild = interaction.guild!;
   const ch = guild.channels.cache.get(channelId) as VoiceChannel | null;
   const liveMembers = ch ? ch.members.filter(m => !m.user.bot).map(m => m.id) : state.allMembers;
 
-  await sendTeamProposal(interaction, locale, liveMembers, state.totalPlaying || liveMembers.length, channelId, guildId);
+  await sendTeamProposal(interaction, locale, liveMembers, state.totalPlaying || liveMembers.length, channelId, guildId, invokerUserId);
 }
 
 // ─── Play ─────────────────────────────────────────────────────────────────────
@@ -326,6 +360,7 @@ async function handlePlay(
   locale: string,
   guildId: string,
   channelId: string,
+  invokerUserId: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: any,
 ): Promise<void> {
@@ -351,20 +386,10 @@ async function handlePlay(
   const teamAName = t(locale, 'channels.team_a');
   const teamBName = t(locale, 'channels.team_b');
 
-  // Create game category + channels
   const category = await guild.channels.create({ name: categoryName, type: ChannelType.GuildCategory });
-  const teamAChannel = await guild.channels.create({
-    name: teamAName,
-    type: ChannelType.GuildVoice,
-    parent: category.id,
-  });
-  const teamBChannel = await guild.channels.create({
-    name: teamBName,
-    type: ChannelType.GuildVoice,
-    parent: category.id,
-  });
+  const teamAChannel = await guild.channels.create({ name: teamAName, type: ChannelType.GuildVoice, parent: category.id });
+  const teamBChannel = await guild.channels.create({ name: teamBName, type: ChannelType.GuildVoice, parent: category.id });
 
-  // Move members
   if (bot.permissions.has(PermissionFlagsBits.MoveMembers)) {
     for (const memberId of state.teamA) {
       const m = guild.members.cache.get(memberId);
@@ -376,7 +401,6 @@ async function handlePlay(
     }
   }
 
-  // Persist to DB
   await db.activeGame.create({
     data: {
       guildId,

@@ -50,6 +50,7 @@
       "not_enough_members": "Il faut au moins **2 membres** dans le salon pour créer des équipes.",
       "no_permission": "Seuls les **Game Managers** ou les administrateurs peuvent lancer une partie.",
       "move_failed": "Impossible de déplacer tous les membres — vérifiez que j'ai la permission **Déplacer les membres**.",
+      "not_invoker": "Seul la personne qui a lancé `/game` peut utiliser ces boutons.",
       "state_expired": "Cette proposition a expiré. Relancez `/game` pour recommencer.",
       "bot_permissions": "Il me manque des permissions. Vérifiez que j'ai **Gérer les salons** et **Déplacer les membres**."
     },

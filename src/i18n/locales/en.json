@@ -50,6 +50,7 @@
       "not_enough_members": "You need at least **2 members** in the channel to create teams.",
       "no_permission": "Only **Game Managers** or server admins can start a game.",
       "move_failed": "Couldn't move all members — make sure I have the **Move Members** permission.",
+      "not_invoker": "Only the person who ran `/game` can use these buttons.",
       "state_expired": "This game proposal has expired. Run `/game` again to start fresh.",
       "bot_permissions": "I'm missing some permissions. Check that I have **Manage Channels** and **Move Members**."
     },
