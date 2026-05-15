@@ -95,6 +95,7 @@
     "footer": "Seuls les Game Managers et les admins serveur peuvent lancer /game.",
     "faq": {
       "title": "FAQ",
+      "placeholder": "Choisissez une question...",
       "q_who_game": "Qui peut utiliser /game ?",
       "a_who_game": "Les membres avec le rôle **Game Manager** et les admins serveur. Définissez le rôle dans `/setup`.",
       "q_who_setup": "Qui peut utiliser /setup ?",

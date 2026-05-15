@@ -1,17 +1,36 @@
-import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
+} from 'discord.js';
 import { Colors } from '../utils/colors';
 import { t } from '../i18n';
 import { getConfig } from '../services/guildConfig';
+
+const FAQ_KEYS = [
+  'who_game',
+  'who_setup',
+  'rename',
+  'odd',
+  'multi',
+  'cleanup',
+  'lang',
+  'more_channels',
+] as const;
+
+// ─── /help command ────────────────────────────────────────────────────────────
 
 export async function handleHelpCommand(interaction: ChatInputCommandInteraction): Promise<void> {
   const locale = interaction.guildId
     ? ((await getConfig(interaction.guildId))?.locale ?? 'en')
     : 'en';
 
-  const commands = await interaction.client.application.commands.fetch().catch(() => null);
+  const appCommands = await interaction.client.application.commands.fetch().catch(() => null);
 
   function mention(name: string): string {
-    const cmd = commands?.find(c => c.name === name);
+    const cmd = appCommands?.find(c => c.name === name);
     return cmd ? `</${name}:${cmd.id}>` : `\`/${name}\``;
   }
 
@@ -34,44 +53,56 @@ export async function handleHelpCommand(interaction: ChatInputCommandInteraction
       },
     );
 
-  const faqEmbed = new EmbedBuilder()
-    .setColor(Colors.purple)
-    .setTitle(t(locale, 'help.faq.title'))
-    .addFields(
-      {
-        name: t(locale, 'help.faq.q_who_game'),
-        value: t(locale, 'help.faq.a_who_game'),
-      },
-      {
-        name: t(locale, 'help.faq.q_who_setup'),
-        value: t(locale, 'help.faq.a_who_setup'),
-      },
-      {
-        name: t(locale, 'help.faq.q_rename'),
-        value: t(locale, 'help.faq.a_rename'),
-      },
-      {
-        name: t(locale, 'help.faq.q_odd'),
-        value: t(locale, 'help.faq.a_odd'),
-      },
-      {
-        name: t(locale, 'help.faq.q_multi'),
-        value: t(locale, 'help.faq.a_multi'),
-      },
-      {
-        name: t(locale, 'help.faq.q_cleanup'),
-        value: t(locale, 'help.faq.a_cleanup'),
-      },
-      {
-        name: t(locale, 'help.faq.q_lang'),
-        value: t(locale, 'help.faq.a_lang', { cmd: mention('setup') }),
-      },
-      {
-        name: t(locale, 'help.faq.q_more_channels'),
-        value: t(locale, 'help.faq.a_more_channels', { cmd: mention('setup') }),
-      },
-    )
-    .setFooter({ text: t(locale, 'help.footer') });
+  const faqRow = buildFaqSelect(locale);
 
-  await interaction.reply({ embeds: [commandsEmbed, faqEmbed], flags: 64 });
+  await interaction.reply({
+    embeds: [commandsEmbed],
+    components: [faqRow],
+    flags: 64,
+  });
+}
+
+// ─── FAQ select menu handler ──────────────────────────────────────────────────
+
+export async function handleFaqSelect(interaction: StringSelectMenuInteraction): Promise<void> {
+  const locale = interaction.guildId
+    ? ((await getConfig(interaction.guildId))?.locale ?? 'en')
+    : 'en';
+
+  const key = interaction.values[0] as typeof FAQ_KEYS[number];
+
+  const appCommands = await interaction.client.application.commands.fetch().catch(() => null);
+  function mention(name: string): string {
+    const cmd = appCommands?.find(c => c.name === name);
+    return cmd ? `</${name}:${cmd.id}>` : `\`/${name}\``;
+  }
+
+  const question = t(locale, `help.faq.q_${key}`);
+  const answer = t(locale, `help.faq.a_${key}`, { cmd: mention('setup') });
+
+  const answerEmbed = new EmbedBuilder()
+    .setColor(Colors.purple)
+    .setTitle(question)
+    .setDescription(answer);
+
+  await interaction.update({
+    components: [buildFaqSelect(locale)],
+    embeds: [answerEmbed],
+  });
+}
+
+// ─── Shared builder ───────────────────────────────────────────────────────────
+
+function buildFaqSelect(locale: string): ActionRowBuilder<StringSelectMenuBuilder> {
+  return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId('help_faq')
+      .setPlaceholder(t(locale, 'help.faq.placeholder'))
+      .addOptions(
+        FAQ_KEYS.map(key => ({
+          label: t(locale, `help.faq.q_${key}`),
+          value: key,
+        })),
+      ),
+  );
 }

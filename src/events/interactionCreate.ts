@@ -1,7 +1,7 @@
 import { ButtonInteraction, Client, Events, Interaction, StringSelectMenuInteraction } from 'discord.js';
 import { handleSetupCommand, handleSetupInteraction } from '../interactions/setup';
 import { handleGameCommand, handleGameInteraction } from '../interactions/game';
-import { handleHelpCommand } from '../interactions/help';
+import { handleHelpCommand, handleFaqSelect } from '../interactions/help';
 import { getConfig } from '../services/guildConfig';
 import { t } from '../i18n';
 
@@ -36,6 +36,8 @@ export function registerInteractionEvent(client: Client): void {
         const select = interaction as StringSelectMenuInteraction;
         if (select.customId.startsWith('setup_')) {
           await handleSetupInteraction(select as unknown as ButtonInteraction);
+        } else if (select.customId === 'help_faq') {
+          await handleFaqSelect(select);
         }
         return;
       }
