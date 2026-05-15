@@ -8,6 +8,7 @@ import {
   ChatInputCommandInteraction,
   EmbedBuilder,
   GuildMember,
+  MessageComponentInteraction,
   PermissionFlagsBits,
   VoiceChannel,
 } from 'discord.js';
@@ -113,7 +114,7 @@ async function handleNotInCreationChannel(
 // ─── Odd members prompt ───────────────────────────────────────────────────────
 
 export async function sendOddMembersPrompt(
-  interaction: ChatInputCommandInteraction | ButtonInteraction,
+  interaction: ChatInputCommandInteraction | MessageComponentInteraction,
   locale: string,
   members: string[],
   channelId: string,
@@ -152,17 +153,17 @@ export async function sendOddMembersPrompt(
     guildId: interaction.guildId!,
   });
 
-  if (interaction instanceof ButtonInteraction) {
-    await interaction.update({ embeds: [embed], components: [row] });
-  } else {
+  if (interaction instanceof ChatInputCommandInteraction) {
     await interaction.reply({ embeds: [embed], components: [row] });
+  } else {
+    await interaction.update({ embeds: [embed], components: [row] });
   }
 }
 
 // ─── Team proposal ────────────────────────────────────────────────────────────
 
 export async function sendTeamProposal(
-  interaction: ChatInputCommandInteraction | ButtonInteraction,
+  interaction: ChatInputCommandInteraction | MessageComponentInteraction,
   locale: string,
   allMembers: string[],
   totalPlaying: number,
@@ -176,10 +177,10 @@ export async function sendTeamProposal(
   const embed = buildProposalEmbed(locale, teams.teamA, teams.teamB, teams.spectators);
   const row = proposalRow(locale, channelId, invokerUserId);
 
-  if (interaction instanceof ButtonInteraction) {
-    await interaction.update({ embeds: [embed], components: [row] });
-  } else {
+  if (interaction instanceof ChatInputCommandInteraction) {
     await interaction.reply({ embeds: [embed], components: [row] });
+  } else {
+    await interaction.update({ embeds: [embed], components: [row] });
   }
 }
 

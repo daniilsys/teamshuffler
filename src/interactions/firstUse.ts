@@ -6,10 +6,14 @@ import {
   PermissionFlagsBits,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
+  VoiceChannel,
 } from 'discord.js';
 import { Colors } from '../utils/colors';
 import { t } from '../i18n';
 import { getConfig, upsertConfig } from '../services/guildConfig';
+import { setupPanelPayload } from './setup';
+import { buildHelpPayload } from './help';
+import { sendOddMembersPrompt, sendTeamProposal } from './game';
 
 export async function checkFirstUse(interaction: ChatInputCommandInteraction): Promise<boolean> {
   const { guildId, member } = interaction;
@@ -33,9 +37,12 @@ export async function checkFirstUse(interaction: ChatInputCommandInteraction): P
     )
     .setFooter({ text: 'This message is only visible to you.' });
 
+  // Encode the command name in customId so we can auto-run it after language pick
+  const commandName = interaction.commandName;
+
   const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
     new StringSelectMenuBuilder()
-      .setCustomId('firstuse_lang')
+      .setCustomId(`firstuse_lang:${commandName}`)
       .setPlaceholder('Select a language...')
       .addOptions(
         { label: 'English', value: 'en' },
@@ -51,15 +58,49 @@ export async function checkFirstUse(interaction: ChatInputCommandInteraction): P
 
 export async function handleFirstUseLang(interaction: StringSelectMenuInteraction): Promise<void> {
   const locale = interaction.values[0];
+  const commandName = interaction.customId.split(':')[1];
   const { guildId } = interaction;
   if (!guildId || !locale) return;
 
   await upsertConfig(guildId, { locale });
 
-  const embed = new EmbedBuilder()
-    .setColor(Colors.blurple)
-    .setTitle(t(locale, 'firstuse.done_title'))
-    .setDescription(t(locale, 'firstuse.done_description'));
+  switch (commandName) {
+    case 'help': {
+      const payload = await buildHelpPayload(locale, interaction.client);
+      await interaction.update(payload);
+      break;
+    }
 
-  await interaction.update({ embeds: [embed], components: [] });
+    case 'shuffle': {
+      const guildMember = interaction.member as GuildMember;
+      const voiceChannel = guildMember.voice.channel as VoiceChannel | null;
+
+      if (!voiceChannel) {
+        await interaction.update({ content: t(locale, 'game.error.not_in_voice'), embeds: [], components: [] });
+        return;
+      }
+
+      const members = voiceChannel.members.filter(m => !m.user.bot).map(m => m.id);
+
+      if (members.length < 2) {
+        await interaction.update({ content: t(locale, 'game.error.not_enough_members'), embeds: [], components: [] });
+        return;
+      }
+
+      if (members.length % 2 !== 0) {
+        await sendOddMembersPrompt(interaction, locale, members, voiceChannel.id, interaction.user.id);
+        return;
+      }
+
+      await sendTeamProposal(interaction, locale, members, members.length, voiceChannel.id, guildId, interaction.user.id);
+      break;
+    }
+
+    case 'setup':
+    case 'game':
+    default: {
+      await interaction.update(setupPanelPayload(locale));
+      break;
+    }
+  }
 }

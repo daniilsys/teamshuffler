@@ -57,6 +57,12 @@ function backRow(locale: string): ActionRowBuilder<ButtonBuilder> {
   );
 }
 
+// ─── Shared payload builder ───────────────────────────────────────────────────
+
+export function setupPanelPayload(locale: string): { embeds: EmbedBuilder[]; components: ActionRowBuilder<ButtonBuilder>[] } {
+  return { embeds: [mainPanelEmbed(locale)], components: [mainPanelRow(locale)] };
+}
+
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
 export async function handleSetupCommand(interaction: MessageComponentInteraction | { reply: Function; guildId: string | null }): Promise<void> {

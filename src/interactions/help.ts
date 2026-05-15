@@ -3,6 +3,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
+  Client,
   EmbedBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
@@ -25,14 +26,13 @@ const FAQ_KEYS = [
 
 const INVITE_PERMISSIONS = '286346256';
 
-// ─── /help command ────────────────────────────────────────────────────────────
+// ─── Shared payload builder ───────────────────────────────────────────────────
 
-export async function handleHelpCommand(interaction: ChatInputCommandInteraction): Promise<void> {
-  const locale = interaction.guildId
-    ? ((await getConfig(interaction.guildId))?.locale ?? 'en')
-    : 'en';
-
-  const appCommands = await interaction.client.application.commands.fetch().catch(() => null);
+export async function buildHelpPayload(locale: string, client: Client): Promise<{
+  embeds: EmbedBuilder[];
+  components: (ActionRowBuilder<StringSelectMenuBuilder> | ActionRowBuilder<ButtonBuilder>)[];
+}> {
+  const appCommands = await client.application!.commands.fetch().catch(() => null);
 
   function mention(name: string): string {
     const cmd = appCommands?.find(c => c.name === name);
@@ -44,41 +44,31 @@ export async function handleHelpCommand(interaction: ChatInputCommandInteraction
     .setTitle(t(locale, 'help.title'))
     .setDescription(t(locale, 'help.description'))
     .addFields(
-      {
-        name: `${mention('setup')} — ${t(locale, 'help.setup.title')}`,
-        value: t(locale, 'help.setup.description'),
-      },
-      {
-        name: `${mention('game')} — ${t(locale, 'help.game.title')}`,
-        value: t(locale, 'help.game.description'),
-      },
-      {
-        name: `${mention('shuffle')} — ${t(locale, 'help.shuffle.title')}`,
-        value: t(locale, 'help.shuffle.description'),
-      },
-      {
-        name: `${mention('help')} — ${t(locale, 'help.help.title')}`,
-        value: t(locale, 'help.help.description'),
-      },
+      { name: `${mention('setup')} — ${t(locale, 'help.setup.title')}`, value: t(locale, 'help.setup.description') },
+      { name: `${mention('game')} — ${t(locale, 'help.game.title')}`, value: t(locale, 'help.game.description') },
+      { name: `${mention('shuffle')} — ${t(locale, 'help.shuffle.title')}`, value: t(locale, 'help.shuffle.description') },
+      { name: `${mention('help')} — ${t(locale, 'help.help.title')}`, value: t(locale, 'help.help.description') },
     );
 
-  const clientId = interaction.client.user.id;
+  const clientId = client.user!.id;
   const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=${INVITE_PERMISSIONS}&scope=bot+applications.commands`;
 
   const inviteRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setLabel(t(locale, 'help.btn_invite'))
-      .setURL(inviteUrl)
-      .setStyle(ButtonStyle.Link),
+    new ButtonBuilder().setLabel(t(locale, 'help.btn_invite')).setURL(inviteUrl).setStyle(ButtonStyle.Link),
   );
 
-  const faqRow = buildFaqSelect(locale);
+  return { embeds: [commandsEmbed], components: [buildFaqSelect(locale), inviteRow] };
+}
 
-  await interaction.reply({
-    embeds: [commandsEmbed],
-    components: [faqRow, inviteRow],
-    flags: 64,
-  });
+// ─── /help command ────────────────────────────────────────────────────────────
+
+export async function handleHelpCommand(interaction: ChatInputCommandInteraction): Promise<void> {
+  const locale = interaction.guildId
+    ? ((await getConfig(interaction.guildId))?.locale ?? 'en')
+    : 'en';
+
+  const payload = await buildHelpPayload(locale, interaction.client);
+  await interaction.reply({ ...payload, flags: 64 });
 }
 
 // ─── FAQ select menu handler ──────────────────────────────────────────────────
