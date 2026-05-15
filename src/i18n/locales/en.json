@@ -77,6 +77,23 @@
     },
     "ended": "Game #{id} is over — channels have been cleaned up."
   },
+  "help": {
+    "title": "TeamShuffler — Help",
+    "description": "Instantly shuffle voice channel members into balanced teams.",
+    "setup": {
+      "title": "Server setup",
+      "description": "**Admin only.** Opens an interactive panel to create the Team Creation category, set a Game Manager role, and choose the bot language."
+    },
+    "game": {
+      "title": "Create teams",
+      "description": "Shuffles everyone in your voice channel into two teams.\n— Handles odd numbers (spectator or uneven split)\n— Reroll until you're happy, then hit **Play!** to move players into dedicated channels\n— Channels are deleted automatically when everyone leaves"
+    },
+    "help": {
+      "title": "Show this message",
+      "description": "Displays this help panel."
+    },
+    "footer": "Only Game Managers and server admins can run /game."
+  },
   "errors": {
     "generic": "Something went wrong. Please try again in a moment.",
     "bot_permissions": "I'm missing some permissions. Check my role and try again."

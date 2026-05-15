@@ -77,6 +77,23 @@
     },
     "ended": "La partie #{id} est terminée — les salons ont été supprimés."
   },
+  "help": {
+    "title": "TeamShuffler — Aide",
+    "description": "Créez des équipes équilibrées depuis votre salon vocal en quelques secondes.",
+    "setup": {
+      "title": "Configuration du serveur",
+      "description": "**Admins uniquement.** Ouvre un panel interactif pour créer la catégorie de création d'équipe, définir un rôle Game Manager et choisir la langue du bot."
+    },
+    "game": {
+      "title": "Créer les équipes",
+      "description": "Mélange tous les membres de votre salon vocal en deux équipes.\n— Gère les nombres impairs (spectateur ou équipes déséquilibrées)\n— Reroll jusqu'à satisfaction, puis **Jouer !** pour déplacer les joueurs\n— Les salons sont supprimés automatiquement quand tout le monde part"
+    },
+    "help": {
+      "title": "Afficher ce message",
+      "description": "Affiche ce panel d'aide."
+    },
+    "footer": "Seuls les Game Managers et les admins serveur peuvent lancer /game."
+  },
   "errors": {
     "generic": "Une erreur est survenue. Réessayez dans un instant.",
     "bot_permissions": "Il me manque des permissions. Vérifiez mon rôle et réessayez."

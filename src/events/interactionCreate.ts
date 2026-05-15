@@ -1,6 +1,7 @@
 import { ButtonInteraction, Client, Events, Interaction, StringSelectMenuInteraction } from 'discord.js';
 import { handleSetupCommand, handleSetupInteraction } from '../interactions/setup';
 import { handleGameCommand, handleGameInteraction } from '../interactions/game';
+import { handleHelpCommand } from '../interactions/help';
 import { getConfig } from '../services/guildConfig';
 import { t } from '../i18n';
 
@@ -13,6 +14,8 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupCommand(interaction as unknown as { reply: Function; guildId: string | null });
         } else if (interaction.commandName === 'game') {
           await handleGameCommand(interaction);
+        } else if (interaction.commandName === 'help') {
+          await handleHelpCommand(interaction);
         }
         return;
       }
