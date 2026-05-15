@@ -44,7 +44,7 @@ export function registerInteractionEvent(client: Client): void {
           await handleSetupInteraction(select as unknown as ButtonInteraction);
         } else if (select.customId === 'help_faq') {
           await handleFaqSelect(select);
-        } else if (select.customId === 'firstuse_lang') {
+        } else if (select.customId.startsWith('firstuse_lang')) {
           await handleFirstUseLang(select);
         }
         return;
