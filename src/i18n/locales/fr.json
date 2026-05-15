@@ -92,7 +92,26 @@
       "title": "Afficher ce message",
       "description": "Affiche ce panel d'aide."
     },
-    "footer": "Seuls les Game Managers et les admins serveur peuvent lancer /game."
+    "footer": "Seuls les Game Managers et les admins serveur peuvent lancer /game.",
+    "faq": {
+      "title": "FAQ",
+      "q_who_game": "Qui peut utiliser /game ?",
+      "a_who_game": "Les membres avec le rôle **Game Manager** et les admins serveur. Définissez le rôle dans `/setup`.",
+      "q_who_setup": "Qui peut utiliser /setup ?",
+      "a_who_setup": "Les **administrateurs** du serveur uniquement.",
+      "q_rename": "Peut-on renommer les salons de création d'équipe ?",
+      "a_rename": "Oui — les noms sont cosmétiques, le bot les suit par ID. Renommez librement.",
+      "q_odd": "Que se passe-t-il avec un nombre impair de joueurs ?",
+      "a_odd": "Le bot propose deux options : mettre un joueur spectateur (équipes égales) ou garder tout le monde avec des équipes déséquilibrées.",
+      "q_multi": "Peut-on lancer plusieurs parties en même temps ?",
+      "a_multi": "Oui ! Chaque salon de création est indépendant. Utilisez des salons différents pour des parties en parallèle.",
+      "q_cleanup": "Les salons de jeu ne se suppriment pas ?",
+      "a_cleanup": "Ils se suppriment quand **tous** les membres ont quitté l'Équipe A et l'Équipe B. Un cron de sécurité tourne aussi toutes les 5 minutes.",
+      "q_lang": "Comment changer la langue du bot ?",
+      "a_lang": "Ouvrez {cmd} → **Changer la langue**. Langues disponibles : anglais et français.",
+      "q_more_channels": "Peut-on avoir plus de 3 salons de création ?",
+      "a_more_channels": "Pas encore — relancer {cmd} → **Créer la catégorie** crée toujours exactement 3 salons."
+    }
   },
   "errors": {
     "generic": "Une erreur est survenue. Réessayez dans un instant.",

@@ -1,3 +1,4 @@
+import { Colors } from '../utils/colors';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -17,7 +18,7 @@ import { getConfig, upsertConfig } from '../services/guildConfig';
 
 function mainPanelEmbed(locale: string): EmbedBuilder {
   return new EmbedBuilder()
-    .setColor('#5865F2')
+    .setColor(Colors.blue)
     .setTitle(t(locale, 'setup.panel.title'))
     .setDescription(t(locale, 'setup.panel.description'));
 }
@@ -160,7 +161,7 @@ async function handleCategory(interaction: MessageComponentInteraction, guildId:
 
 async function handleRoleMenu(interaction: MessageComponentInteraction, locale: string): Promise<void> {
   const embed = new EmbedBuilder()
-    .setColor('#5865F2')
+    .setColor(Colors.blue)
     .setTitle(t(locale, 'setup.role.title'))
     .setDescription(t(locale, 'setup.role.description'));
 
@@ -190,7 +191,7 @@ async function handleRoleSelect(interaction: StringSelectMenuInteraction, guildI
 
 async function handleLangMenu(interaction: MessageComponentInteraction, locale: string): Promise<void> {
   const embed = new EmbedBuilder()
-    .setColor('#5865F2')
+    .setColor(Colors.blue)
     .setTitle(t(locale, 'setup.language.title'))
     .setDescription(t(locale, 'setup.language.description'));
 
@@ -228,7 +229,7 @@ async function handleStatus(interaction: MessageComponentInteraction, guildId: s
   const configured = t(locale, 'setup.status.configured');
 
   const embed = new EmbedBuilder()
-    .setColor('#5865F2')
+    .setColor(Colors.blue)
     .setTitle(t(locale, 'setup.status.title'))
     .addFields(
       {

@@ -1,3 +1,4 @@
+import { Colors } from '../utils/colors';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -89,7 +90,7 @@ async function handleNotInCreationChannel(
   });
 
   const embed = new EmbedBuilder()
-    .setColor('#FEE75C')
+    .setColor(Colors.soft)
     .setDescription(t(locale, 'game.error.not_in_creation'));
 
   if (!availableChannel) {
@@ -126,7 +127,7 @@ async function sendOddMembersPrompt(
   const b2 = count - a2;
 
   const embed = new EmbedBuilder()
-    .setColor('#5865F2')
+    .setColor(Colors.blue)
     .setTitle(t(locale, 'game.odd_members.title', { count }))
     .setDescription(t(locale, 'game.odd_members.description'));
 
@@ -184,7 +185,7 @@ async function sendTeamProposal(
 
 function buildProposalEmbed(locale: string, teamA: string[], teamB: string[], spectators: string[]): EmbedBuilder {
   const embed = new EmbedBuilder()
-    .setColor('#57F287')
+    .setColor(Colors.blurple)
     .setTitle(t(locale, 'game.proposal.title'))
     .addFields(
       { name: t(locale, 'game.proposal.team_a'), value: teamA.map(id => `<@${id}>`).join('\n'), inline: true },
@@ -292,7 +293,7 @@ async function handleMove(
   // After move, go straight to team proposal
   if (movedIds.length < 2) {
     const embed = new EmbedBuilder()
-      .setColor('#FEE75C')
+      .setColor(Colors.soft)
       .setDescription(t(locale, 'game.error.not_enough_members'));
     await interaction.editReply({ embeds: [embed], components: [] });
     return;
@@ -414,7 +415,7 @@ async function handlePlay(
   deleteGameState(guildId, channelId);
 
   const embed = new EmbedBuilder()
-    .setColor('#57F287')
+    .setColor(Colors.blurple)
     .setTitle(t(locale, 'game.started.title', { id: gameId }))
     .setDescription(t(locale, 'game.started.description'))
     .addFields(
