@@ -3,21 +3,21 @@ import cron from 'node-cron';
 import { cronCleanup } from '../services/cleanupService';
 
 const STATUSES: { type: ActivityType; name: string }[] = [
-  { type: ActivityType.Playing,    name: '/game — shuffle your team' },
+  { type: ActivityType.Playing,    name: '/game to shuffle your team' },
   { type: ActivityType.Watching,   name: 'voice channels' },
   { type: ActivityType.Playing,    name: 'Made by daniilsys' },
   { type: ActivityType.Listening,  name: 'team debates' },
-  { type: ActivityType.Playing,    name: 'Tip: set a Game Manager role' },
   { type: ActivityType.Competing,  name: 'the shuffle lottery' },
   { type: ActivityType.Playing,    name: 'fair teams since 2026' },
-  { type: ActivityType.Watching,   name: 'for empty game channels' },
-  { type: ActivityType.Playing,    name: 'Tip: reroll as many times as you want' },
   { type: ActivityType.Playing,    name: 'certified RNG team selector' },
   { type: ActivityType.Listening,  name: 'your cries after a bad shuffle' },
-  { type: ActivityType.Playing,    name: 'Tip: /help for the full guide' },
   { type: ActivityType.Playing,    name: 'no more rock paper scissors' },
-  { type: ActivityType.Watching,   name: 'the carry get put on the wrong team' },
-  { type: ActivityType.Playing,    name: 'Tip: odd number? spectator mode available' },
+  { type: ActivityType.Watching,   name: 'the carry end up on the wrong team' },
+  { type: ActivityType.Playing,    name: 'with your sanity' },
+  { type: ActivityType.Watching,   name: 'you blame the bot for the loss' },
+  { type: ActivityType.Playing,    name: 'Made by daniilsys' },
+  { type: ActivityType.Listening,  name: 'the coin flip discourse' },
+  { type: ActivityType.Competing,  name: 'ranked team selection' },
 ];
 
 let statusIndex = 0;
