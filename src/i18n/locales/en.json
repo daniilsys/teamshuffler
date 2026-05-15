@@ -27,6 +27,8 @@
       "updated": "Language updated to **{lang}**.",
       "en": "English",
       "fr": "French",
+      "de": "German",
+      "es": "Spanish",
       "btn_back": "Back"
     },
     "status": {
@@ -107,9 +109,9 @@
       "q_multi": "Can multiple games run at the same time?",
       "a_multi": "Yes! Each creation channel is independent. Use different channels to run parallel games.",
       "q_cleanup": "Game channels aren't being deleted?",
-      "a_cleanup": "They delete when **all** members leave both Team A and Team B. A safety cron also runs every 5 minutes.",
+      "a_cleanup": "They delete when **all** members leave both Team A and Team B. A safety verification also runs every 5 minutes.",
       "q_lang": "How do I change the bot language?",
-      "a_lang": "Open {cmd} → **Change Language**. Currently supported: English and French.",
+      "a_lang": "Open {cmd} → **Change Language**. Currently supported: English, French, German and Spanish.",
       "q_more_channels": "Can I have more than 3 creation channels?",
       "a_more_channels": "Not yet — re-running {cmd} → **Create Category** always creates exactly 3."
     }

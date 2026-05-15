@@ -1,12 +1,15 @@
 import en from './locales/en.json';
 import fr from './locales/fr.json';
+import de from './locales/de.json';
+import es from './locales/es.json';
 
 type LocaleData = typeof en;
-type SupportedLocale = 'en' | 'fr';
+type SupportedLocale = 'en' | 'fr' | 'de' | 'es';
 
-const locales: Record<SupportedLocale, LocaleData> = { en, fr };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const locales: Record<SupportedLocale, any> = { en, fr, de, es };
 
-export const SUPPORTED_LOCALES: SupportedLocale[] = ['en', 'fr'];
+export const SUPPORTED_LOCALES: SupportedLocale[] = ['en', 'fr', 'de', 'es'];
 
 export function isValidLocale(locale: string): locale is SupportedLocale {
   return SUPPORTED_LOCALES.includes(locale as SupportedLocale);

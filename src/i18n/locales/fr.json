@@ -27,6 +27,8 @@
       "updated": "Langue mise à jour en **{lang}**.",
       "en": "Anglais",
       "fr": "Français",
+      "de": "Allemand",
+      "es": "Espagnol",
       "btn_back": "Retour"
     },
     "status": {
@@ -107,9 +109,9 @@
       "q_multi": "Peut-on lancer plusieurs parties en même temps ?",
       "a_multi": "Oui ! Chaque salon de création est indépendant. Utilisez des salons différents pour des parties en parallèle.",
       "q_cleanup": "Les salons de jeu ne se suppriment pas ?",
-      "a_cleanup": "Ils se suppriment quand **tous** les membres ont quitté l'Équipe A et l'Équipe B. Un cron de sécurité tourne aussi toutes les 5 minutes.",
+      "a_cleanup": "Ils se suppriment quand **tous** les membres ont quitté l'Équipe A et l'Équipe B. Une vérification de sécurité tourne aussi toutes les 5 minutes.",
       "q_lang": "Comment changer la langue du bot ?",
-      "a_lang": "Ouvrez {cmd} → **Changer la langue**. Langues disponibles : anglais et français.",
+      "a_lang": "Ouvrez {cmd} → **Changer la langue**. Langues disponibles : anglais, français, allemand et espagnol.",
       "q_more_channels": "Peut-on avoir plus de 3 salons de création ?",
       "a_more_channels": "Pas encore — relancer {cmd} → **Créer la catégorie** crée toujours exactement 3 salons."
     }

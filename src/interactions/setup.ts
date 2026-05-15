@@ -202,6 +202,8 @@ async function handleLangMenu(interaction: MessageComponentInteraction, locale: 
       .addOptions([
         { label: t(locale, 'setup.language.en'), value: 'en' },
         { label: t(locale, 'setup.language.fr'), value: 'fr' },
+        { label: t(locale, 'setup.language.de'), value: 'de' },
+        { label: t(locale, 'setup.language.es'), value: 'es' },
       ]),
   );
 
@@ -214,7 +216,8 @@ async function handleLangSelect(interaction: StringSelectMenuInteraction, guildI
 
   await upsertConfig(guildId, { locale: newLocale });
 
-  const langName = newLocale === 'fr' ? 'Français' : 'English';
+  const langNames: Record<string, string> = { en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español' };
+  const langName = langNames[newLocale] ?? newLocale;
   const embed = mainPanelEmbed(newLocale).setFooter({
     text: t(newLocale, 'setup.language.updated', { lang: langName }),
   });

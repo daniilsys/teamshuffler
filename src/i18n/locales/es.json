@@ -1,0 +1,130 @@
+{
+  "setup": {
+    "panel": {
+      "title": "Configuración de TeamShuffler",
+      "description": "Configura tu servidor para los juegos de creación de equipos.\n\nUsa los botones de abajo para comenzar.",
+      "btn_category": "Crear categoría",
+      "btn_role": "Definir rol de Game Manager",
+      "btn_language": "Cambiar idioma",
+      "btn_status": "Estado del servidor"
+    },
+    "category": {
+      "creating": "Creando categoría y canales de voz...",
+      "created": "Categoría **{name}** creada con 3 canales de voz listos.",
+      "reconfigured": "Categoría reconfigurada — 3 canales de voz están listos."
+    },
+    "role": {
+      "title": "Definir rol de Game Manager",
+      "description": "Selecciona el rol que podrá ejecutar `/game`. Los admins del servidor siempre pueden usarlo.",
+      "placeholder": "Seleccionar un rol...",
+      "set": "Rol de Game Manager establecido en {role}.",
+      "btn_back": "Volver"
+    },
+    "language": {
+      "title": "Cambiar idioma",
+      "description": "Elige el idioma para todos los mensajes del bot en este servidor.",
+      "placeholder": "Seleccionar un idioma...",
+      "updated": "Idioma actualizado a **{lang}**.",
+      "en": "Inglés",
+      "fr": "Francés",
+      "de": "Alemán",
+      "es": "Español",
+      "btn_back": "Volver"
+    },
+    "status": {
+      "title": "Configuración del servidor",
+      "category": "Categoría de creación de equipos",
+      "channels": "Canales de creación",
+      "role": "Rol de Game Manager",
+      "language": "Idioma",
+      "not_set": "No configurado",
+      "configured": "Configurado ✓",
+      "btn_back": "Volver"
+    }
+  },
+  "game": {
+    "error": {
+      "no_config": "Este servidor aún no está configurado.\n\nPide a un admin que ejecute `/setup`.",
+      "not_in_voice": "Debes unirte a un canal de voz para crear equipos.",
+      "not_in_creation": "No estás en un canal de **Creación de equipos**.",
+      "move_suggestion": "¿Mover a todos a un canal de creación disponible?",
+      "no_available_channel": "Todos los canales de creación están ocupados. Espera a que uno se libere.",
+      "not_enough_members": "Necesitas al menos **2 miembros** en el canal para crear equipos.",
+      "no_permission": "Solo los **Game Managers** o los admins del servidor pueden iniciar una partida.",
+      "move_failed": "No se pudieron mover todos los miembros — asegúrate de que tengo el permiso **Mover miembros**.",
+      "not_invoker": "Solo la persona que ejecutó `/game` puede usar estos botones.",
+      "state_expired": "Esta propuesta de equipos ha expirado. Ejecuta `/game` de nuevo.",
+      "bot_permissions": "Me faltan permisos. Asegúrate de que tengo **Gestionar canales** y **Mover miembros**."
+    },
+    "odd_members": {
+      "title": "{count} miembros — elige un formato",
+      "description": "El número de miembros es impar. Elige la configuración que quieres:",
+      "btn_smaller": "{a} vs {b} — 1 espectador",
+      "btn_all": "{a} vs {b} — todos juegan"
+    },
+    "proposal": {
+      "title": "Propuesta de equipos",
+      "team_a": "Equipo A",
+      "team_b": "Equipo B",
+      "spectator": "Espectador",
+      "btn_reroll": "Reroll",
+      "btn_play": "¡Jugar!"
+    },
+    "moved": "**{count}** miembros movidos a {channel}.",
+    "started": {
+      "title": "¡Partida #{id} iniciada!",
+      "description": "Los equipos han sido movidos a sus canales de voz. ¡Que empiece el juego!",
+      "team_a": "Equipo A",
+      "team_b": "Equipo B"
+    },
+    "ended": "La partida #{id} ha terminado — los canales han sido eliminados."
+  },
+  "help": {
+    "title": "TeamShuffler — Ayuda",
+    "description": "Divide al instante los miembros del canal de voz en equipos equilibrados.",
+    "setup": {
+      "title": "Configurar el servidor",
+      "description": "**Solo admins.** Abre un panel interactivo para crear la categoría de equipos, definir un rol de Game Manager y elegir el idioma del bot."
+    },
+    "game": {
+      "title": "Crear equipos",
+      "description": "Mezcla a todos los miembros de tu canal de voz en dos equipos.\n— Gestiona números impares (espectador o división desigual)\n— Haz reroll hasta estar satisfecho, luego pulsa **¡Jugar!**\n— Los canales se eliminan automáticamente cuando todos se van"
+    },
+    "help": {
+      "title": "Mostrar este mensaje",
+      "description": "Muestra este panel de ayuda."
+    },
+    "footer": "Solo los Game Managers y los admins del servidor pueden usar /game.",
+    "faq": {
+      "title": "FAQ",
+      "placeholder": "Selecciona una pregunta...",
+      "q_who_game": "¿Quién puede usar /game?",
+      "a_who_game": "Miembros con el rol **Game Manager** y admins del servidor. Define el rol en `/setup`.",
+      "q_who_setup": "¿Quién puede usar /setup?",
+      "a_who_setup": "Solo los **administradores** del servidor.",
+      "q_rename": "¿Puedo renombrar los canales de creación de equipos?",
+      "a_rename": "Sí — los nombres son cosméticos, el bot los rastrea por ID. Renómbralos libremente.",
+      "q_odd": "¿Qué pasa si hay un número impar de jugadores?",
+      "a_odd": "El bot ofrece dos opciones: poner a un jugador como espectador (equipos iguales) o mantener a todos con equipos desiguales.",
+      "q_multi": "¿Pueden correr varias partidas al mismo tiempo?",
+      "a_multi": "¡Sí! Cada canal de creación es independiente. Usa diferentes canales para partidas en paralelo.",
+      "q_cleanup": "¿Los canales de juego no se eliminan?",
+      "a_cleanup": "Se eliminan cuando **todos** los miembros abandonan el Equipo A y el Equipo B. También hay una verificación de seguridad cada 5 minutos.",
+      "q_lang": "¿Cómo cambio el idioma del bot?",
+      "a_lang": "Abre {cmd} → **Cambiar idioma**. Disponible: inglés, francés, alemán y español.",
+      "q_more_channels": "¿Puedo tener más de 3 canales de creación?",
+      "a_more_channels": "Todavía no — ejecutar {cmd} → **Crear categoría** siempre crea exactamente 3."
+    }
+  },
+  "errors": {
+    "generic": "Algo salió mal. Por favor inténtalo de nuevo en un momento.",
+    "bot_permissions": "Me faltan algunos permisos. Revisa mi rol e inténtalo de nuevo."
+  },
+  "channels": {
+    "category_name": "Creación de equipos",
+    "creation_channel": "Creación de equipos #{n}",
+    "game_category": "PARTIDA #{id}",
+    "team_a": "Equipo A",
+    "team_b": "Equipo B"
+  }
+}

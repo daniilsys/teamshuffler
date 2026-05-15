@@ -1,0 +1,130 @@
+{
+  "setup": {
+    "panel": {
+      "title": "TeamShuffler Einrichtung",
+      "description": "Konfiguriere deinen Server für Team-Shuffle-Spiele.\n\nVerwende die Schaltflächen unten, um loszulegen.",
+      "btn_category": "Kategorie erstellen",
+      "btn_role": "Game-Manager-Rolle festlegen",
+      "btn_language": "Sprache ändern",
+      "btn_status": "Serverstatus"
+    },
+    "category": {
+      "creating": "Kategorie und Sprachkanäle werden erstellt...",
+      "created": "Kategorie **{name}** mit 3 Sprachkanälen erstellt.",
+      "reconfigured": "Kategorie neu konfiguriert — 3 Sprachkanäle sind bereit."
+    },
+    "role": {
+      "title": "Game-Manager-Rolle festlegen",
+      "description": "Wähle die Rolle aus, die `/game` ausführen darf. Server-Admins können es immer verwenden.",
+      "placeholder": "Rolle auswählen...",
+      "set": "Game-Manager-Rolle auf {role} gesetzt.",
+      "btn_back": "Zurück"
+    },
+    "language": {
+      "title": "Sprache ändern",
+      "description": "Wähle die Sprache für alle Bot-Nachrichten auf diesem Server.",
+      "placeholder": "Sprache auswählen...",
+      "updated": "Sprache auf **{lang}** geändert.",
+      "en": "Englisch",
+      "fr": "Französisch",
+      "de": "Deutsch",
+      "es": "Spanisch",
+      "btn_back": "Zurück"
+    },
+    "status": {
+      "title": "Serverkonfiguration",
+      "category": "Team-Erstellungs-Kategorie",
+      "channels": "Erstellungskanäle",
+      "role": "Game-Manager-Rolle",
+      "language": "Sprache",
+      "not_set": "Nicht konfiguriert",
+      "configured": "Konfiguriert ✓",
+      "btn_back": "Zurück"
+    }
+  },
+  "game": {
+    "error": {
+      "no_config": "Dieser Server ist noch nicht eingerichtet.\n\nBitte einen Admin, `/setup` auszuführen.",
+      "not_in_voice": "Du musst einem Sprachkanal beitreten, um Teams zu erstellen.",
+      "not_in_creation": "Du bist nicht in einem **Team-Erstellungs**-Kanal.",
+      "move_suggestion": "Alle in einen verfügbaren Erstellungskanal verschieben?",
+      "no_available_channel": "Alle Erstellungskanäle sind besetzt. Warte, bis einer frei wird.",
+      "not_enough_members": "Du brauchst mindestens **2 Mitglieder** im Kanal, um Teams zu erstellen.",
+      "no_permission": "Nur **Game Manager** oder Server-Admins können ein Spiel starten.",
+      "move_failed": "Nicht alle Mitglieder konnten verschoben werden — stelle sicher, dass ich die Berechtigung **Mitglieder verschieben** habe.",
+      "not_invoker": "Nur die Person, die `/game` ausgeführt hat, kann diese Schaltflächen verwenden.",
+      "state_expired": "Dieser Teamvorschlag ist abgelaufen. Führe `/game` erneut aus.",
+      "bot_permissions": "Mir fehlen Berechtigungen. Stelle sicher, dass ich **Kanäle verwalten** und **Mitglieder verschieben** habe."
+    },
+    "odd_members": {
+      "title": "{count} Mitglieder — Format wählen",
+      "description": "Die Anzahl der Mitglieder ist ungerade. Wähle die gewünschte Konfiguration:",
+      "btn_smaller": "{a} vs {b} — 1 Zuschauer",
+      "btn_all": "{a} vs {b} — alle spielen"
+    },
+    "proposal": {
+      "title": "Teamvorschlag",
+      "team_a": "Team A",
+      "team_b": "Team B",
+      "spectator": "Zuschauer",
+      "btn_reroll": "Neu würfeln",
+      "btn_play": "Spielen!"
+    },
+    "moved": "**{count}** Mitglieder nach {channel} verschoben.",
+    "started": {
+      "title": "Spiel #{id} gestartet!",
+      "description": "Die Teams wurden in ihre Sprachkanäle verschoben. Viel Spaß!",
+      "team_a": "Team A",
+      "team_b": "Team B"
+    },
+    "ended": "Spiel #{id} ist vorbei — Kanäle wurden bereinigt."
+  },
+  "help": {
+    "title": "TeamShuffler — Hilfe",
+    "description": "Teile Sprachkanal-Mitglieder sofort in ausgewogene Teams auf.",
+    "setup": {
+      "title": "Server einrichten",
+      "description": "**Nur Admins.** Öffnet ein interaktives Panel zum Erstellen der Team-Kategorie, Festlegen einer Game-Manager-Rolle und Auswählen der Bot-Sprache."
+    },
+    "game": {
+      "title": "Teams erstellen",
+      "description": "Mischt alle Mitglieder deines Sprachkanals in zwei Teams.\n— Behandelt ungerade Zahlen (Zuschauer oder ungleiche Aufteilung)\n— Neu würfeln bis du zufrieden bist, dann **Spielen!** drücken\n— Kanäle werden automatisch gelöscht, wenn alle gehen"
+    },
+    "help": {
+      "title": "Diese Nachricht anzeigen",
+      "description": "Zeigt dieses Hilfepanel an."
+    },
+    "footer": "Nur Game Manager und Server-Admins können /game ausführen.",
+    "faq": {
+      "title": "FAQ",
+      "placeholder": "Frage auswählen...",
+      "q_who_game": "Wer kann /game verwenden?",
+      "a_who_game": "Mitglieder mit der **Game-Manager**-Rolle und Server-Admins. Rolle in `/setup` festlegen.",
+      "q_who_setup": "Wer kann /setup verwenden?",
+      "a_who_setup": "Nur Server-**Administratoren**.",
+      "q_rename": "Kann ich die Team-Erstellungskanäle umbenennen?",
+      "a_rename": "Ja — Kanalnamen sind kosmetisch, der Bot verfolgt sie per ID. Benenne sie frei um.",
+      "q_odd": "Was passiert bei einer ungeraden Anzahl von Spielern?",
+      "a_odd": "Der Bot bietet zwei Optionen: einen Spieler als Zuschauer setzen (gleiche Teams) oder alle behalten mit ungleichen Teams.",
+      "q_multi": "Können mehrere Spiele gleichzeitig laufen?",
+      "a_multi": "Ja! Jeder Erstellungskanal ist unabhängig. Verwende verschiedene Kanäle für parallele Spiele.",
+      "q_cleanup": "Spielkanäle werden nicht gelöscht?",
+      "a_cleanup": "Sie werden gelöscht, wenn **alle** Mitglieder Team A und Team B verlassen haben. Alle 5 Minuten läuft auch eine Sicherheitsprüfung.",
+      "q_lang": "Wie ändere ich die Bot-Sprache?",
+      "a_lang": "Öffne {cmd} → **Sprache ändern**. Verfügbar: Englisch, Französisch, Deutsch, Spanisch.",
+      "q_more_channels": "Kann ich mehr als 3 Erstellungskanäle haben?",
+      "a_more_channels": "Noch nicht — {cmd} → **Kategorie erstellen** erstellt immer genau 3."
+    }
+  },
+  "errors": {
+    "generic": "Etwas ist schiefgelaufen. Bitte versuche es in einem Moment erneut.",
+    "bot_permissions": "Mir fehlen einige Berechtigungen. Überprüfe meine Rolle und versuche es erneut."
+  },
+  "channels": {
+    "category_name": "Team-Erstellung",
+    "creation_channel": "Team-Erstellung #{n}",
+    "game_category": "SPIEL #{id}",
+    "team_a": "Team A",
+    "team_b": "Team B"
+  }
+}
