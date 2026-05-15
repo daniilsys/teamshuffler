@@ -12,12 +12,13 @@ export function registerInteractionEvent(client: Client): void {
     try {
       // Slash commands
       if (interaction.isChatInputCommand()) {
+        if (await checkFirstUse(interaction)) return;
+
         if (interaction.commandName === 'setup') {
           await handleSetupCommand(interaction as unknown as { reply: Function; guildId: string | null });
         } else if (interaction.commandName === 'game') {
           await handleGameCommand(interaction);
         } else if (interaction.commandName === 'help') {
-          if (await checkFirstUse(interaction)) return;
           await handleHelpCommand(interaction);
         } else if (interaction.commandName === 'shuffle') {
           await handleShuffleCommand(interaction);
