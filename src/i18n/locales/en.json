@@ -1,0 +1,90 @@
+{
+  "setup": {
+    "panel": {
+      "title": "TeamShuffler Setup",
+      "description": "Configure your server for team shuffle games.\n\nUse the buttons below to get started.",
+      "btn_category": "Create Category",
+      "btn_role": "Set Game Manager Role",
+      "btn_language": "Change Language",
+      "btn_status": "Server Status"
+    },
+    "category": {
+      "creating": "Creating category and voice channels...",
+      "created": "Category **{name}** created with 3 voice channels ready to use.",
+      "reconfigured": "Category reconfigured — 3 voice channels are ready."
+    },
+    "role": {
+      "title": "Set Game Manager Role",
+      "description": "Select the role that will be able to run `/game`. Server admins can always run it.",
+      "placeholder": "Select a role...",
+      "set": "Game Manager role set to {role}.",
+      "btn_back": "Back"
+    },
+    "language": {
+      "title": "Change Language",
+      "description": "Choose the language for all bot messages on this server.",
+      "placeholder": "Select a language...",
+      "updated": "Language updated to **{lang}**.",
+      "en": "English",
+      "fr": "French",
+      "btn_back": "Back"
+    },
+    "status": {
+      "title": "Server Configuration",
+      "category": "Team Creation Category",
+      "channels": "Creation Channels",
+      "role": "Game Manager Role",
+      "language": "Language",
+      "not_set": "Not configured",
+      "configured": "Configured ✓",
+      "btn_back": "Back"
+    }
+  },
+  "game": {
+    "error": {
+      "no_config": "This server isn't configured yet.\n\nAsk an admin to run `/setup` to get started.",
+      "not_in_voice": "You need to be in a voice channel to create teams.",
+      "not_in_creation": "You're not in a **Team Creation** channel.",
+      "move_suggestion": "Want me to move everyone to an available creation channel?",
+      "no_available_channel": "All creation channels are currently occupied. Wait for one to free up.",
+      "not_enough_members": "You need at least **2 members** in the channel to create teams.",
+      "no_permission": "Only **Game Managers** or server admins can start a game.",
+      "move_failed": "Couldn't move all members — make sure I have the **Move Members** permission.",
+      "state_expired": "This game proposal has expired. Run `/game` again to start fresh.",
+      "bot_permissions": "I'm missing some permissions. Check that I have **Manage Channels** and **Move Members**."
+    },
+    "odd_members": {
+      "title": "{count} members — choose a format",
+      "description": "The number of members is odd. Pick the team configuration you want:",
+      "btn_smaller": "{a} vs {b} — 1 spectator",
+      "btn_all": "{a} vs {b} — everyone plays"
+    },
+    "proposal": {
+      "title": "Team Proposal",
+      "team_a": "Team A",
+      "team_b": "Team B",
+      "spectator": "Spectator",
+      "btn_reroll": "Reroll",
+      "btn_play": "Play!"
+    },
+    "moved": "Moved **{count}** members to {channel}. You can now run `/game`.",
+    "started": {
+      "title": "Game #{id} started!",
+      "description": "Teams have been moved to their voice channels. Have fun!",
+      "team_a": "Team A",
+      "team_b": "Team B"
+    },
+    "ended": "Game #{id} is over — channels have been cleaned up."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again in a moment.",
+    "bot_permissions": "I'm missing some permissions. Check my role and try again."
+  },
+  "channels": {
+    "category_name": "Team Creation",
+    "creation_channel": "Team Creation #{n}",
+    "game_category": "GAME #{id}",
+    "team_a": "Team A",
+    "team_b": "Team B"
+  }
+}

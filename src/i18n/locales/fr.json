@@ -1,0 +1,90 @@
+{
+  "setup": {
+    "panel": {
+      "title": "Configuration TeamShuffler",
+      "description": "Configurez votre serveur pour les parties de création d'équipe.\n\nUtilisez les boutons ci-dessous pour commencer.",
+      "btn_category": "Créer la catégorie",
+      "btn_role": "Définir le rôle Game Manager",
+      "btn_language": "Changer la langue",
+      "btn_status": "Statut du serveur"
+    },
+    "category": {
+      "creating": "Création de la catégorie et des salons vocaux...",
+      "created": "Catégorie **{name}** créée avec 3 salons vocaux prêts à l'emploi.",
+      "reconfigured": "Catégorie reconfigurée — 3 salons vocaux sont prêts."
+    },
+    "role": {
+      "title": "Définir le rôle Game Manager",
+      "description": "Sélectionnez le rôle qui pourra lancer `/game`. Les admins serveur peuvent toujours l'utiliser.",
+      "placeholder": "Sélectionner un rôle...",
+      "set": "Rôle Game Manager défini sur {role}.",
+      "btn_back": "Retour"
+    },
+    "language": {
+      "title": "Changer la langue",
+      "description": "Choisissez la langue pour tous les messages du bot sur ce serveur.",
+      "placeholder": "Sélectionner une langue...",
+      "updated": "Langue mise à jour en **{lang}**.",
+      "en": "Anglais",
+      "fr": "Français",
+      "btn_back": "Retour"
+    },
+    "status": {
+      "title": "Configuration du serveur",
+      "category": "Catégorie de création d'équipe",
+      "channels": "Salons de création",
+      "role": "Rôle Game Manager",
+      "language": "Langue",
+      "not_set": "Non configuré",
+      "configured": "Configuré ✓",
+      "btn_back": "Retour"
+    }
+  },
+  "game": {
+    "error": {
+      "no_config": "Ce serveur n'est pas encore configuré.\n\nDemandez à un admin de lancer `/setup`.",
+      "not_in_voice": "Vous devez rejoindre un salon vocal pour créer des équipes.",
+      "not_in_creation": "Vous n'êtes pas dans un salon de **Création d'équipe**.",
+      "move_suggestion": "Déplacer tout le monde vers un salon disponible ?",
+      "no_available_channel": "Tous les salons de création sont occupés. Attendez qu'un se libère.",
+      "not_enough_members": "Il faut au moins **2 membres** dans le salon pour créer des équipes.",
+      "no_permission": "Seuls les **Game Managers** ou les administrateurs peuvent lancer une partie.",
+      "move_failed": "Impossible de déplacer tous les membres — vérifiez que j'ai la permission **Déplacer les membres**.",
+      "state_expired": "Cette proposition a expiré. Relancez `/game` pour recommencer.",
+      "bot_permissions": "Il me manque des permissions. Vérifiez que j'ai **Gérer les salons** et **Déplacer les membres**."
+    },
+    "odd_members": {
+      "title": "{count} membres — choisissez un format",
+      "description": "Le nombre de membres est impair. Choisissez la configuration souhaitée :",
+      "btn_smaller": "{a} vs {b} — 1 spectateur",
+      "btn_all": "{a} vs {b} — tout le monde joue"
+    },
+    "proposal": {
+      "title": "Proposition d'équipes",
+      "team_a": "Équipe A",
+      "team_b": "Équipe B",
+      "spectator": "Spectateur",
+      "btn_reroll": "Reroll",
+      "btn_play": "Jouer !"
+    },
+    "moved": "**{count}** membres déplacés vers {channel}. Vous pouvez maintenant lancer `/game`.",
+    "started": {
+      "title": "Partie #{id} lancée !",
+      "description": "Les équipes ont été déplacées dans leurs salons vocaux. Bonne partie !",
+      "team_a": "Équipe A",
+      "team_b": "Équipe B"
+    },
+    "ended": "La partie #{id} est terminée — les salons ont été supprimés."
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Réessayez dans un instant.",
+    "bot_permissions": "Il me manque des permissions. Vérifiez mon rôle et réessayez."
+  },
+  "channels": {
+    "category_name": "Création d'équipe",
+    "creation_channel": "Création d'équipe #{n}",
+    "game_category": "PARTIE #{id}",
+    "team_a": "Équipe A",
+    "team_b": "Équipe B"
+  }
+}

@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GuildConfig {
+  id                 String   @id @default(cuid())
+  guildId            String   @unique
+  locale             String   @default("en")
+  gameManagerRoleId  String?
+  categoryId         String?
+  creationChannelIds String[]
+  gameCounter        Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model ActiveGame {
+  id             String   @id @default(cuid())
+  guildId        String
+  gameNumber     Int
+  categoryId     String   @unique
+  teamAChannelId String   @unique
+  teamBChannelId String   @unique
+  createdAt      DateTime @default(now())
+
+  @@index([guildId])
+}
