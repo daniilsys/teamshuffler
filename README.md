@@ -109,7 +109,7 @@ discord.js 14   ·   TypeScript 5   ·   Prisma ORM   ·   PostgreSQL 16   ·   
 ### 1 — Clone & install
 
 ```bash
-git clone https://github.com/daniil-iss/teamshuffler.git
+git clone https://github.com/daniilsys/teamshuffler.git
 cd teamshuffler
 npm install
 ```
